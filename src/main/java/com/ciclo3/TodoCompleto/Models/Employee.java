@@ -1,45 +1,62 @@
-package com.ciclo3.TodoCompleto.Model;
+package com.ciclo3.TodoCompleto.Models;
 
+
+
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
+@Entity
+@Table(name="Employees")
 public class Employee {
     //Atributes
-    private Long idEmpleado;
+    @Id
+    private Long idEmployee;
+    @Column
     private String nameEmployee;
+    @Column
     private String phoneEmployee;
+    @Column
     private String emailEmployee;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(targetClass = ROLES.class,fetch = FetchType.EAGER)
     private List<ROLES> rolesEmployee;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne
     private Enterprise enterpriseEmployee;
-    private List<Transaction>transactions;
-    private Date updateAtEmployee;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany
+    private List<Transaction> transactions;
+    @Column
+    private Date updatedAtEmployee;
+    @Column
     private Date createdAtEmployee;
 
     //Contructor
-
-    public Employee(Long idEmpleado, String nameEmployee, String phoneEmployee, String emailEmployee, Date updateAtEmployee, Date createdAtEmployee) {
-        this.idEmpleado = idEmpleado;
+    public Employee(Long idEmployee, String nameEmployee, String phoneEmployee, String emailEmployee, Date updatedAtEmployee, Date createdAtEmployee) {
+        this.idEmployee = idEmployee;
         this.nameEmployee = nameEmployee;
         this.phoneEmployee = phoneEmployee;
         this.emailEmployee = emailEmployee;
-        this.updateAtEmployee = updateAtEmployee;
+        this.updatedAtEmployee = updatedAtEmployee;
         this.createdAtEmployee = createdAtEmployee;
     }
-    //Constructor Enpty
 
-    public Employee(List<ROLES> rolesEmployee, Enterprise enterpriseEmployee, List<Transaction> transactions) {
-        this.rolesEmployee = rolesEmployee;
-        this.enterpriseEmployee = enterpriseEmployee;
-        this.transactions = transactions;
-    }
-    getter y setter
-
-    public Long getIdEmpleado() {
-        return idEmpleado;
+    //Constructor Empty
+    public Employee() {
     }
 
-    public void setIdEmpleado(Long idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    //Setters and Getters
+
+    public Long getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Long idEmployee) {
+        this.idEmployee = idEmployee;
     }
 
     public String getNameEmployee() {
@@ -90,12 +107,12 @@ public class Employee {
         this.transactions = transactions;
     }
 
-    public Date getUpdateAtEmployee() {
-        return updateAtEmployee;
+    public Date getUpdatedAtEmployee() {
+        return updatedAtEmployee;
     }
 
-    public void setUpdateAtEmployee(Date updateAtEmployee) {
-        this.updateAtEmployee = updateAtEmployee;
+    public void setUpdatedAtEmployee(Date updatedAtEmployee) {
+        this.updatedAtEmployee = updatedAtEmployee;
     }
 
     public Date getCreatedAtEmployee() {
@@ -104,13 +121,5 @@ public class Employee {
 
     public void setCreatedAtEmployee(Date createdAtEmployee) {
         this.createdAtEmployee = createdAtEmployee;
-    }
-
-    public getter getY() {
-        return y;
-    }
-
-    public void setY(getter y) {
-        this.y = y;
     }
 }
